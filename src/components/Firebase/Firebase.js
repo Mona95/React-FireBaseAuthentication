@@ -15,28 +15,23 @@ var config = {
 class Firebase {
   constructor() {
     app.initializeApp(config);
+
     this.auth = app.auth();
   }
-  //AUTH APIs
-  doCreateUserWithEmailAndPassword = (email, password) => {
+
+  // *** Auth API ***
+
+  doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
-  };
 
-  doSignInWithEmailAndPassword = (email, password) => {
+  doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
-  };
 
-  doSignOut = () => {
-    this.auth.signOut();
-  };
+  doSignOut = () => this.auth.signOut();
 
-  doPasswordReset = email => {
-    this.auth.sendPasswordResetEmail(email);
-  };
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
-  doPasswordUpdate = password => {
-    this.auth.currentUser.updatePassword(password);
-  };
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 }
 
 export default Firebase;
