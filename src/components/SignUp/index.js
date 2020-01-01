@@ -33,28 +33,28 @@ class SignUpForm extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         <input
-          name={username}
+          name="username"
           value={username}
           onChange={this.onChange}
           placeholder="Username"
           type="text"
         />
         <input
-          name={email}
+          name="email"
           value={email}
           onChange={this.onChange}
           placeholder="Email Address"
           type="text"
         />
         <input
-          name={passwordOne}
+          name="passwordOne"
           value={passwordOne}
           onChange={this.onChange}
           placeholder="Password"
           type="text"
         />
         <input
-          name={passwordTwo}
+          name="passwordTwo"
           value={passwordTwo}
           onChange={this.onChange}
           placeholder="Confirm Password"
