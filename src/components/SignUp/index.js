@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -87,7 +86,7 @@ class SignUpFormBase extends Component {
           Sign Up
         </button>
 
-        {error && <p>{error.message}</p>}
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
       </form>
     );
   }
