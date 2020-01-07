@@ -10,6 +10,7 @@ const SignIn = () => (
     <h1>SignIn</h1>
     <SignInForm />
     <SignInGoogle />
+    <SignInTwitter />
     <PasswordForgetLink />
     <SignUpLink />
   </div>
@@ -105,5 +106,42 @@ class SignInGoogleBase extends React.Component {
   }
 }
 const SignInGoogle = withRouter(withFirebase(SignInGoogleBase));
+
+class SignInTwitterBase extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  onSubmit = event => {
+    this.props.firebase
+      .doSignInWithTwitter()
+      .then(socialAuthUser => {
+        // Create a user in your Firebase Realtime Database too
+        return this.props.firebase.user(socialAuthUser.user.uid).set({
+          username: socialAuthUser.user.displayName,
+          email: socialAuthUser.user.email,
+          roles: {}
+        });
+      })
+      .then(() => {
+        this.setState({ error: null });
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+    event.preventDefault();
+  };
+  render() {
+    const { error } = this.state;
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Twitter </button>
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
+}
+const SignInTwitter = withRouter(withFirebase(SignInTwitterBase));
 
 export default SignIn;
