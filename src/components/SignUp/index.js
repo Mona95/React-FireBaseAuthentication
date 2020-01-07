@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 import * as ROLES from "../../constants/roles";
+import * as ERRORS from "../../constants/errors";
 
 const SignUpPage = () => (
   <div>
@@ -46,6 +47,9 @@ class SignUpFormBase extends Component {
       })
 
       .catch(error => {
+        if (error.code === ERRORS.ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = ERRORS.ERROR_MSG_ACCOUNT_EXISTS;
+        }
         this.setState({ error });
       });
     event.preventDefault();

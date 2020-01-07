@@ -2,6 +2,7 @@ import React from "react";
 import { withFirebase } from "../Firebase";
 import { Link, withRouter } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
+import * as ERRORS from "../../constants/errors";
 import { SignUpLink } from "../SignUp";
 import { PasswordForgetLink } from "../PasswordForget";
 
@@ -91,6 +92,9 @@ class SignInGoogleBase extends React.Component {
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        if (error.code === ERRORS.ERROR_CODE_ACCOUNT_EXISTS_DIFF_CRED) {
+          error.message = ERRORS.ERROR_MSG_ACCOUNT_EXISTS_DIFF_CRED;
+        }
         this.setState({ error });
       });
     event.preventDefault();
@@ -128,6 +132,9 @@ class SignInTwitterBase extends React.Component {
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        if (error.code === ERRORS.ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = ERRORS.ERROR_MSG_ACCOUNT_EXISTS;
+        }
         this.setState({ error });
       });
     event.preventDefault();
