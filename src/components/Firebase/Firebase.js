@@ -35,6 +35,10 @@ class Firebase {
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
   doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
   doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider);
+  doSendEmailVerification = () =>
+    this.auth.currentUser.sendEmailVerification({
+      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+    });
 
   // *** USER API ***
 
@@ -57,6 +61,8 @@ class Firebase {
             authUser = {
               uid: authUser.uid,
               email: authUser.email,
+              emailVerified: authUser.emailVerified,
+              providerData: authUser.providerData,
               ...dbUser
             };
             next(authUser);
