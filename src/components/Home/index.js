@@ -45,7 +45,11 @@ class MessagesBase extends Component {
       const messageObject = snapshot.val();
       if (messageObject) {
         // convert messages list from snapshot
-        this.setState({ loading: false });
+        const messageList = Object.keys(messageObject).map(key => ({
+          ...messageObject[key],
+          uid: key
+        }));
+        this.setState({ loading: false, messages: messageList });
       } else {
         this.setState({ messages: null, loading: false });
       }
