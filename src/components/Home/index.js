@@ -5,6 +5,9 @@ import {
   withEmailVerification
 } from "../Session";
 import { withFirebase } from "../Firebase";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
 
 const Home = () => (
   <div>
@@ -89,8 +92,17 @@ class MessagesBase extends Component {
               <div>There are no messages ...</div>
             )}
             <form onSubmit={event => this.onCreateMessage(event, authUser)}>
-              <input type="text" value={text} onChange={this.onChangeText} />
-              <button type="submit">Send</button>
+              <TextField
+                id="standard-basic"
+                label="Message"
+                value={text}
+                onChange={this.onChangeText}
+              />
+              <br />
+              <br />
+              <Button type="submit" variant="contained" color="secondary">
+                Send
+              </Button>
             </form>
           </div>
         )}
@@ -112,6 +124,37 @@ const MessageList = ({ messages, onRemoveMessage, onEditMessage }) => {
     </ul>
   );
 };
+
+const EditButton = withStyles({
+  root: {
+    fontSize: 10,
+    color: "#000000",
+    padding: 0,
+    marginLeft: 15,
+    width: "20px"
+  }
+})(Button);
+
+const RedButton = withStyles({
+  root: {
+    fontSize: 10,
+    color: "#000000",
+    padding: 0,
+    backgroundColor: "red",
+    marginLeft: 5,
+    width: "20px"
+  }
+})(Button);
+
+const SaveButton = withStyles({
+  root: {
+    fontSize: 10,
+    color: "#000000",
+    padding: 0,
+    backgroundColor: "green",
+    marginLeft: 5
+  }
+})(Button);
 
 class MessageItem extends React.Component {
   constructor(props) {
@@ -140,7 +183,7 @@ class MessageItem extends React.Component {
     return (
       <li>
         {editMode ? (
-          <input
+          <TextField
             type="text"
             value={editText}
             onChange={this.onChangeEditText}
@@ -153,16 +196,18 @@ class MessageItem extends React.Component {
         )}
         {editMode ? (
           <span>
-            <button onClick={this.onSaveEditText}>Save</button>
-            <button onClick={this.onToggleEditMode}>Reset</button>
+            <SaveButton onClick={this.onSaveEditText}>Save</SaveButton>
+            <RedButton onClick={this.onToggleEditMode}>Reset</RedButton>
           </span>
         ) : (
-          <button onClick={this.onToggleEditMode}>Edit</button>
+          <EditButton variant="outlined" onClick={this.onToggleEditMode}>
+            Edit
+          </EditButton>
         )}
         {!editMode && (
-          <button type="button" onClick={() => onRemoveMessage(message.uid)}>
+          <RedButton type="button" onClick={() => onRemoveMessage(message.uid)}>
             Delete
-          </button>
+          </RedButton>
         )}
       </li>
     );
